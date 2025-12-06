@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BIRTHDAY RIA TRIANTI</title>
+<style>
+  :root{
+    --bg:#dbeeff; 
+    --card:#ffffff; 
+    --ink:#0f172a; 
+    --sub:#64748b;
+    --line:#e2e8f0; 
+    --accent:#3b82f6;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  /* ==== FONT ==== */
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+  /* ==== ANIMASI LANGIT & AWAN ==== */
+  @keyframes moveClouds {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 10%; }
+    100% { background-position: 0% 0%; }
+  }
+
+  @keyframes floatBalloon {
+    0%   { transform: translateY(20px) translateX(0); opacity:0; }
+    10%  { opacity:1; }
+    50%  { transform: translateY(-40px) translateX(10px); }
+    100% { transform: translateY(-120px) translateX(-10px); opacity:0; }
+  }
+
+  @keyframes glowPulse {
+    0%,100% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.4); }
+    50%     { box-shadow: 0 0 35px rgba(251, 191, 36, 0.8); }
+  }
+
+  @keyframes hintPulse {
+    0%,100% { opacity:0.4; transform: translateY(0); }
+    50%     { opacity:1; transform: translateY(-1px); }
+  }
+
+  @keyframes titleFloat {
+    0%,100% { transform: translateY(0); }
+    50%     { transform: translateY(-4px); }
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Poppins", sans-serif;
+    background: radial-gradient(circle at top, #bfdbfe 0%, #e0f2fe 35%, #fdfcfb 100%);
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Awan halus lembut bergerak */
+  .clouds {
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(circle at 10% 20%, rgba(255,255,255,0.9) 0%, transparent 50%),
+      radial-gradient(circle at 50% 40%, rgba(255,255,255,0.8) 0%, transparent 55%),
+      radial-gradient(circle at 90% 30%, rgba(255,255,255,0.9) 0%, transparent 50%),
+      radial-gradient(circle at 30% 70%, rgba(255,255,255,0.7) 0%, transparent 55%);
+    background-size: 400% 400%;
+    animation: moveClouds 55s linear infinite;
+    opacity: 0.5;
+    z-index: 0;
+  }
+
+  /* Cahaya hangat di bawah kartu */
+  .sun-glow {
+    position: absolute;
+    bottom: -220px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    height: 460px;
+    background: radial-gradient(circle at center, rgba(251,191,36,0.6) 0%, rgba(255,255,255,0) 70%);
+    filter: blur(70px);
+    z-index: 0;
+    animation: glowPulse 5s ease-in-out infinite;
+  }
+
+  /* ==== BALON DEKOR ==== */
+  .balloons {
+    position: absolute;
+    inset: 0;
+    pointer-events:none;
+    z-index: 0;
+  }
+
+  .balloon {
+    position:absolute;
+    width: 65px;
+    height: 90px;
+    border-radius: 50% 50% 45% 45%;
+    box-shadow: 0 8px 18px rgba(15,23,42,0.25);
+  }
+
+  .balloon::after {
+    content:"";
+    position:absolute;
+    left:50%;
+    bottom:-40px;
+    width:1.5px;
+    height:40px;
+    background:rgba(30,64,175,0.6);
+    transform:translateX(-50%);
+  }
+
+  .balloon--1{
+    left:8%;
+    bottom:-40px;
+    background: radial-gradient(circle at 30% 20%, #f97316, #fb923c);
+    animation: floatBalloon 16s linear infinite;
+  }
+  .balloon--2{
+    left:82%;
+    bottom:-60px;
+    background: radial-gradient(circle at 30% 20%, #ec4899, #fb7185);
+    animation: floatBalloon 18s linear infinite 4s;
+  }
+  .balloon--3{
+    left:16%;
+    top:-40px;
+    background: radial-gradient(circle at 30% 20%, #22c55e, #4ade80);
+    animation: floatBalloon 20s linear infinite 2s;
+  }
+  .balloon--4{
+    right:16%;
+    top:-60px;
+    background: radial-gradient(circle at 30% 20%, #3b82f6, #60a5fa);
+    animation: floatBalloon 17s linear infinite 6s;
+  }
+
+  /* ==== CARD UTAMA ==== */
+  .card{
+    position: relative;
+    z-index: 2;
+    width:min(680px,92vw);
+    padding:32px 26px 26px;
+    border-radius:24px;
+    background:
+      linear-gradient(135deg, rgba(255,255,255,0.9), rgba(248,250,252,0.95)) padding-box,
+      linear-gradient(135deg, #93c5fd, #f9a8d4, #fed7aa) border-box;
+    border: 1.5px solid transparent;
+    box-shadow:
+      0 18px 45px rgba(15,23,42,0.25),
+      0 0 0 1px rgba(255,255,255,0.8) inset;
+    text-align:center;
+    backdrop-filter: blur(16px);
+  }
+
+  .badge-top{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:5px 12px;
+    border-radius:999px;
+    background:rgba(37,99,235,0.08);
+    color:#1d4ed8;
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    margin-bottom:10px;
+  }
+
+  .badge-dot{
+    width:8px;
+    height:8px;
+    border-radius:999px;
+    background:linear-gradient(135deg,#f97316,#facc15);
+    box-shadow:0 0 10px rgba(251,191,36,0.8);
+  }
+
+  h1{
+    margin-bottom:4px;
+    font-size:clamp(26px,4vw,34px);
+    font-weight:700;
+    color:var(--ink);
+    letter-spacing:0.02em;
+    animation: titleFloat 4s ease-in-out infinite;
+  }
+
+  .name-highlight{
+    background: linear-gradient(120deg,#f97316,#ec4899,#3b82f6);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    font-weight:800;
+  }
+
+  .sub{
+    color:var(--sub);
+    margin-bottom:14px;
+    font-size:13px;
+  }
+
+  .tagline{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    font-size:12px;
+    color:#0f172a;
+    background:rgba(248,250,252,0.9);
+    border-radius:999px;
+    padding:6px 14px;
+    border:1px dashed rgba(148,163,184,0.7);
+    margin-bottom:18px;
+  }
+
+  .tag-dot{
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background:#22c55e;
+  }
+
+  .hr{
+    height:1px;
+    background:linear-gradient(90deg,transparent,#e2e8f0,transparent);
+    margin:16px auto 20px;
+    width:82%;
+  }
+
+  p{
+    color:var(--ink);
+    line-height:1.7;
+    margin:8px 0;
+    font-size:14px;
+  }
+
+  .doa{
+    color:var(--sub);
+    font-size:14px;
+  }
+
+  .arab{
+    font-family: "Scheherazade New", "Amiri", serif;
+    font-size: 20px;
+    line-height: 1.9;
+    direction: rtl;
+    margin-top:10px;
+    margin-bottom:6px;
+  }
+
+  .arab-wrap{
+    padding:10px 14px;
+    border-radius:16px;
+    background:rgba(239,246,255,0.9);
+    border:1px solid rgba(191,219,254,0.9);
+    margin-top:12px;
+  }
+
+  /* PROFIL MINI */
+  .profile-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    margin-bottom:12px;
+  }
+
+  .avatar{
+    width:46px;
+    height:46px;
+    border-radius:999px;
+    background: radial-gradient(circle at 30% 20%, #f97316, #fb7185);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-weight:700;
+    font-size:18px;
+    box-shadow:0 8px 18px rgba(248,113,113,0.6);
+  }
+
+  .profile-text{
+    text-align:left;
+  }
+
+  .profile-text small{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:#9ca3af;
+  }
+
+  .profile-text span{
+    display:block;
+    font-size:13px;
+    font-weight:500;
+    color:#0f172a;
+  }
+
+  /* BUTTON AUDIO */
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    margin-top:18px;
+    padding:11px 20px;
+    border-radius:999px;
+    border:1px solid rgba(191,219,254,0.9);
+    background: radial-gradient(circle at 0 0, rgba(248,250,252,0.9), rgba(219,234,254,0.98));
+    color:#1d4ed8;
+    font-weight:600;
+    text-decoration:none;
+    transition:transform .12s ease, box-shadow .12s ease, background .2s ease;
+    box-shadow:0 10px 22px rgba(37,99,235,0.28);
+    font-size:14px;
+  }
+
+  .btn-icon{
+    font-size:16px;
+  }
+
+  .btn:hover{
+    background: radial-gradient(circle at 0 0, rgba(239,246,255,1), rgba(191,219,254,1));
+    transform:translateY(-1px) scale(1.01);
+    box-shadow:0 14px 28px rgba(37,99,235,0.42);
+  }
+
+  .btn:active{
+    transform:translateY(1px) scale(.99);
+    box-shadow:0 6px 16px rgba(37,99,235,0.35);
+  }
+
+  .hint{
+    margin-top:8px;
+    font-size:11px;
+    color:var(--sub);
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    animation: hintPulse 2.4s ease-in-out infinite;
+  }
+
+  .hint span{
+    font-size:13px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width:480px){
+    .card{
+      padding:24px 18px 20px;
+      border-radius:20px;
+    }
+    h1{
+      font-size:22px;
+    }
+    p{
+      font-size:13px;
+    }
+    .arab{
+      font-size:18px;
+    }
+    .profile-row{
+      gap:10px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Background layer -->
+<div class="clouds"></div>
+<div class="sun-glow"></div>
+
+<!-- Balon dekor -->
+<div class="balloons" aria-hidden="true">
+  <div class="balloon balloon--1"></div>
+  <div class="balloon balloon--2"></div>
+  <div class="balloon balloon--3"></div>
+  <div class="balloon balloon--4"></div>
+</div>
+
+<!-- Card utama -->
+<main class="card" role="article" aria-label="BIRTHDAY RIA TRIANTI">
+  <div class="badge-top">
+    <span class="badge-dot"></span>
+    Birthday Special
+  </div>
+
+  <div class="profile-row">
+    <div class="avatar">R</div>
+    <div class="profile-text">
+      <small>Untuk</small>
+      <span>RIA TRIANTI · Hari Spesialmu</span>
+    </div>
+  </div>
+
+  <h1>Happy Birthday, <span class="name-highlight">RIA TRIANTI</span> 🎉</h1>
+  <p class="sub">Semoga harimu selalu dipenuhi cahaya, tawa, dan keberkahan dari Allah.</p>
+
+  <div class="tagline">
+    <span class="tag-dot"></span>
+    Doa terbaik untuk perjalanan hidup di usia baru
+  </div>
+
+  <div class="hr"></div>
+
+  <p>Semoga di usia baru ini, Allah memberikan kesehatan yang sempurna, rezeki yang penuh keberkahan, serta hati yang senantiasa lapang dan bersyukur dalam keadaan apa pun.</p>
+
+  <p class="doa"><strong>Doa:</strong> Barakallahu fi umrik. Semoga Allah memberkahi usiamu, menjaga langkah-langkahmu, melapangkan jalanmu, dan menuntunmu dalam setiap kebaikan yang engkau pilih.</p>
+
+  <div class="arab-wrap">
+    <p class="arab">اللَّهُمَّ بَارِكْ لَهُ فِي عُمْرِهِ، وَارْزُقْهُ سَعَادَةً دَائِمَةً وَتَوْفِيقًا فِي كُلِّ أَمْرٍ.</p>
+    <p class="doa">Ya Allah, berkahilah umurnya, anugerahkan kebahagiaan yang langgeng, dan bimbinglah ia dalam setiap urusan hidupnya agar selalu berada di jalan yang Engkau ridai.</p>
+  </div>
+
+  <a href="#" id="playBtn" class="btn" role="button" aria-pressed="false">
+    <span class="btn-icon" id="btnIcon">▶️</span>
+    <span id="btnLabel">Coba putar lagu ulang tahun</span>
+  </a>
+
+  <div class="hint">
+    <span>COBA PLAY 🎶 · Volume HP-nya dinaikkan dulu ya</span>
+  </div>
+
+  <audio id="song" preload="auto" playsinline>
+    <source src="happy-birthday-357371.mp3" type="audio/mpeg">
+  </audio>
+</main>
+
+<script>
+  const btn = document.getElementById('playBtn');
+  const btnIcon = document.getElementById('btnIcon');
+  const btnLabel = document.getElementById('btnLabel');
+  const audio = document.getElementById('song');
+  let playing = false;
+
+  btn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    try {
+      if (!playing) {
+        await audio.play();
+        btnIcon.textContent = '⏸️';
+        btnLabel.textContent = 'Jeda lagu ulang tahun';
+        playing = true;
+        btn.setAttribute('aria-pressed','true');
+      } else {
+        audio.pause();
+        btnIcon.textContent = '▶️';
+        btnLabel.textContent = 'Lanjutkan lagu ulang tahun';
+        playing = false;
+        btn.setAttribute('aria-pressed','false');
+      }
+    } catch (err) {
+      alert('Audio gagal diputar. Pastikan file MP3 ada & path benar.');
+    }
+  });
+
+  audio.addEventListener('ended', () => {
+    btnIcon.textContent = '▶️';
+    btnLabel.textContent = 'Putar lagi lagu ulang tahun';
+    playing = false;
+    btn.setAttribute('aria-pressed','false');
+  });
+</script>
+
+</body>
+</html>
